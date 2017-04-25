@@ -123,38 +123,21 @@ app.post('/login',
 (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
-  debugger;
+
   return models.Users.get({ username })
   .then(user => {
     if (user) {
-      throw user;
+      if (user.password === utils(password) ) {
+        res.redirect('/');
+      } else {
+        res.redirect('/login');
+      }
+    } else {
+      res.redirect('/login');
     }
-  })
-
-
-  // .then(user => {
-  //   debugger;
-  //   return models.Users.validate({
-  //     username: username,
-  //     password: password
-  //   });
-  // })
-  // .then(condition => {
-  //   if (condition) {
-  //     throw user;
-  //   } else {
-  //     res.send(JSON.stringify('Invalid username/password'));
-  //   }
-  // }) 
-
-  .then(user => {
-    throw user;
   })
   .error(error => {
     res.status(500).send(error);
-  })
-  .catch(user => {
-    res.status(200).send(user);
   });
 });
 

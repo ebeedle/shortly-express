@@ -24,23 +24,11 @@ class Users extends Model {
   // }
   
   create(user) {
-    let shasum = crypto.createHash('sha256');
-    shasum.update(user.password);
-    user.password = shasum.digest('hex');
-
+    user.password = utils(user.password);
     return super.create.call(this, user);
   }
   
-  validate(user) {
-    let shasum = crypto.createHash('sha256');
-    shasum.update(user.password);
-    let password = shasum.digest('hex');
-
-    
-    return super.get.call(this, user.password) === password;
-
-  }
-  
+ 
 }
 
 module.exports = new Users();
