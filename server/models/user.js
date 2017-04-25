@@ -30,13 +30,17 @@ class Users extends Model {
 
     return super.create.call(this, user);
   }
-  // create(password) {
-  //   let shasum = crypto.createHash('sha1');
-  //   shasum.update(link.url);
-  //   link.code = shasum.digest('hex').slice(0, 5);
+  
+  validate(user) {
+    let shasum = crypto.createHash('sha256');
+    shasum.update(user.password);
+    let password = shasum.digest('hex');
 
-  //   return super.create.call(this, link);
-  // }
+    
+    return super.get.call(this, user.password) === password;
+
+  }
+  
 }
 
 module.exports = new Users();

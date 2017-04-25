@@ -119,17 +119,45 @@ app.get('/login',
   res.render('login');
 });
 
-// app.post('/login', 
-// (req, res, next) => {
-//   var username = req.body.username;
-//   var password = req.body.password;
-// })
+app.post('/login', 
+(req, res, next) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  debugger;
+  return models.Users.get({ username })
+  .then(user => {
+    if (user) {
+      throw user;
+    }
+  })
 
-// app.post('/login', 
-// (req, res, next) => {
-//   var url = req.body.url;
 
-// });
+  // .then(user => {
+  //   debugger;
+  //   return models.Users.validate({
+  //     username: username,
+  //     password: password
+  //   });
+  // })
+  // .then(condition => {
+  //   if (condition) {
+  //     throw user;
+  //   } else {
+  //     res.send(JSON.stringify('Invalid username/password'));
+  //   }
+  // }) 
+
+  .then(user => {
+    throw user;
+  })
+  .error(error => {
+    res.status(500).send(error);
+  })
+  .catch(user => {
+    res.status(200).send(user);
+  });
+});
+
 
 /************************************************************/
 // Handle the code parameter route last - if all other routes fail
