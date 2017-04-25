@@ -80,7 +80,56 @@ app.post('/links',
 // Write your authentication routes here
 /************************************************************/
 
+app.get('/signup', 
+(req, res, next) => {
+  res.render('signup');
+});
 
+app.post('/signup',
+(req, res, next) => {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  return models.Users.get({ username })
+    .then(user => {
+      if (user) {
+        throw user;
+      }
+    })
+    .then(user => {
+      return models.Users.create({
+        username: username,
+        password: password
+      });
+    })
+    .then(user => {
+      throw user;
+    })
+    .error(error => {
+      res.status(500).send(error);
+    })
+    .catch(user => {
+      res.status(200).send(user);
+    });
+});
+
+
+app.get('/login', 
+(req, res, next) => {
+  res.render('login');
+});
+
+// app.post('/login', 
+// (req, res, next) => {
+//   var username = req.body.username;
+//   var password = req.body.password;
+// })
+
+// app.post('/login', 
+// (req, res, next) => {
+//   var url = req.body.url;
+
+// });
 
 /************************************************************/
 // Handle the code parameter route last - if all other routes fail

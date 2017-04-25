@@ -28,7 +28,16 @@ module.exports = (db) => {
   /************************************************************/
   /*          Add additional schema queries here              */
   /************************************************************/
-
+    .then(() => {
+      // Create clicks table
+      return db.queryAsync(`
+        CREATE TABLE IF NOT EXISTS users (
+          id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          timestamp TIMESTAMP,
+          username VARCHAR(80),
+          password VARCHAR(80)
+        );`);
+    })
     .error(err => {
       console.log(err);
     });
