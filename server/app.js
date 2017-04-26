@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', 
 (req, res) => {
+  console.log(req.header);
   res.render('index');
 });
 
